@@ -1,8 +1,16 @@
 #include <iostream>
+#include <cmath>
 
 class Vector
 {
 public:
+	Vector()
+	{
+		x = 0;
+		y = 0;
+		z = 0;
+	}
+
 	Vector(float x, float y, float z)
 	{
 		this->x = x;
@@ -10,9 +18,16 @@ public:
 		this->z = z;
 	}
 
+	operator float()
+	{
+		return sqrt(x * x + y * y + z * z);
+	}
+
 	friend Vector operator+(const Vector& a, const Vector& b);
 
 	friend std::ostream& operator<<(std::ostream& out, const Vector& v);
+
+	friend bool operator>(const Vector& a, const Vector& b);
 
 	float operator[](int index)
 	{
@@ -42,19 +57,26 @@ private:
 
 Vector operator+(const Vector& a, const Vector& b)
 {
-	return Vector (a.x + b.x, a.y + b.y, a.z + b.z);
+	return Vector(a.x + b.x, a.y + b.y, a.z + b.z);
 }
 
 std::ostream& operator<<(std::ostream& out, const Vector& v)
 {
-	out << ' ' << v.x << ' ' << v.y << ' ' << v.z;
+	out << v.x << ' ' << v.y << ' ' << v.z;
 	return out;
+}
+
+bool operator>(const Vector& a, const Vector& b)
+{
+	return false;
 }
 
 int main()
 {
 	Vector v1(0, 1, 2);
 	Vector v2(3, 4, 5);
-	std::cout << v1 + v2 << '\n';
-	std::cout << v2[1];
+	Vector v3;
+	v3 = v1 + v2;
+	std::cout << v3 << '\n';
+	std::cout << "v3 lenght " << static_cast<float>(v3);
 }
