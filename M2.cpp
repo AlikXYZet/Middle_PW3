@@ -19,6 +19,14 @@ public:
 		Info = new std::string("important!");
 	}
 
+	Vector(float num)
+	{
+		x = num;
+		y = num;
+		z = num;
+		Info = new std::string("important!");
+	}
+
 	Vector(const Vector& other)
 	{
 		std::cout << "\nCopy constructor \n";
@@ -26,6 +34,22 @@ public:
 		y = other.y;
 		z = other.z;
 		Info = new std::string(*(other.Info));
+	}
+
+	Vector& operator=(Vector& other)
+	{
+		std::cout << "\noperator = \n";
+		x = other.x;
+		y = other.y;
+		z = other.z;
+
+		if (other.Info)
+		{
+			if (Info) delete Info;
+			Info = new std::string(*(other.Info));
+		}
+
+		return (*this);
 	}
 
 	~Vector()
@@ -91,9 +115,11 @@ bool operator>(const Vector& a, const Vector& b)
 
 int main()
 {
-	Vector v1{ 0, 1, 2 };
-	Vector v3 = v1;
-	//v3 = v1 + v2;
-	//std::cout << v3 << '\n';
-	//std::cout << "v3 lenght " << static_cast<float>(v3);
+	Vector v1(1);
+	Vector v2(2);
+	Vector v3;
+	std::cout << v2 << '\n';
+	v3 = v2 = v1;
+	std::cout << v2 << '\n';
+
 }
