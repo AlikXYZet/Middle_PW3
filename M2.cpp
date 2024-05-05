@@ -16,6 +16,22 @@ public:
 		this->x = x;
 		this->y = y;
 		this->z = z;
+		Info = new std::string("important!");
+	}
+
+	Vector(const Vector& other)
+	{
+		std::cout << "\nCopy constructor \n";
+		x = other.x;
+		y = other.y;
+		z = other.z;
+		Info = new std::string(*(other.Info));
+	}
+
+	~Vector()
+	{
+		std::cout << "Destructor calling \n";
+		delete Info;
 	}
 
 	operator float()
@@ -53,6 +69,8 @@ private:
 	float x;
 	float y;
 	float z;
+
+	std::string* Info;
 };
 
 Vector operator+(const Vector& a, const Vector& b)
@@ -73,10 +91,9 @@ bool operator>(const Vector& a, const Vector& b)
 
 int main()
 {
-	Vector v1(0, 1, 2);
-	Vector v2(3, 4, 5);
-	Vector v3;
-	v3 = v1 + v2;
-	std::cout << v3 << '\n';
-	std::cout << "v3 lenght " << static_cast<float>(v3);
+	Vector v1{ 0, 1, 2 };
+	Vector v3 = v1;
+	//v3 = v1 + v2;
+	//std::cout << v3 << '\n';
+	//std::cout << "v3 lenght " << static_cast<float>(v3);
 }
