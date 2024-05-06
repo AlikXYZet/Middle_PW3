@@ -1,125 +1,151 @@
 #include <iostream>
 #include <cmath>
 
-class Vector
+using namespace std;
+
+class Array
 {
 public:
-	Vector()
-	{
-		x = 0;
-		y = 0;
-		z = 0;
-	}
 
-	Vector(float x, float y, float z)
+	// Конструктор
+	Array()
 	{
-		this->x = x;
-		this->y = y;
-		this->z = z;
-		Info = new std::string("important!");
-	}
+		// Получение размеров Дин.массива
+		cout << "\nВведите количество сттолбцов: n = ";
+		cin >> n;
+		cout << "Введите количество сттолбцов: m = ";
+		cin >> m;
 
-	Vector(float num)
-	{
-		x = num;
-		y = num;
-		z = num;
-		Info = new std::string("important!");
-	}
-
-	Vector(const Vector& other)
-	{
-		std::cout << "\nCopy constructor \n";
-		x = other.x;
-		y = other.y;
-		z = other.z;
-		Info = new std::string(*(other.Info));
-	}
-
-	Vector& operator=(Vector& other)
-	{
-		std::cout << "\noperator = \n";
-		x = other.x;
-		y = other.y;
-		z = other.z;
-
-		if (other.Info)
+		// Создание и заполнение Дин.массива
+		A = new int* [n];
+		for (int i = 0; i < n; i++)
 		{
-			if (Info) delete Info;
-			Info = new std::string(*(other.Info));
+			A[i] = new int[m];
+			for (int ii = 0; ii < m; ii++)
+			{
+				A[i][ii] = rand() % 10;	// Диапазон: 0-9
+			}
 		}
 
-		return (*this);
+		// Заполнение Доп.данных
+		string inInfo;
+		cout << "Введите Слово (En): Info = ";
+		cin >> inInfo;
+		Info = new string(inInfo);
+
+		int inNumber;
+		cout << "Введите Число (int): Number = ";
+		cin >> inNumber;
+		Number = new int(inNumber);
+	};
+
+	// Деструктор
+	~Array()
+	{
+		// Освобождение памяти
+		FDelete();
 	}
 
-	~Vector()
+	// Перегрузка копирования (на основе присвоения)
+	Array(Array& other)
 	{
-		std::cout << "Destructor calling \n";
-		delete Info;
+		*this = other;
 	}
 
-	operator float()
+	// Перегрузка присвоения
+	Array& operator=(Array& other)
 	{
-		return sqrt(x * x + y * y + z * z);
-	}
+		// Освобождение памяти
+		FDelete();
 
-	friend Vector operator+(const Vector& a, const Vector& b);
+		// Присвоить размеры массива
+		n = other.n;
+		m = other.m;
 
-	friend std::ostream& operator<<(std::ostream& out, const Vector& v);
-
-	friend bool operator>(const Vector& a, const Vector& b);
-
-	float operator[](int index)
-	{
-		switch (index)
+		// Создание и заполнение Дин.массива
+		A = new int* [n];
+		for (int i = 0; i < n; i++)
 		{
-		case 0:
-			return x;
-			break;
-		case 1:
-			return y;
-			break;
-		case 2:
-			return z;
-			break;
-		default:
-			std::cout << "ibdex error: ";
-			return 0;
-			break;
+			A[i] = new int[m];
+			for (int ii = 0; ii < m; ii++)
+			{
+				A[i][ii] = other.A[i][ii];
+			}
 		}
+
+		// Заполнение Доп.данных
+		Info = new string(*(other.Info));
+		Number = new int(*(other.Number));
+
+		return *this;
 	}
+
+	// Вывод в консоль
+	friend ostream& operator << (ostream& out, Array& Arr);
 
 private:
-	float x;
-	float y;
-	float z;
 
-	std::string* Info;
+	// Данные массива
+	int n;
+	int m;
+	int** A;
+
+	// Доп.данные
+	string* Info;
+	int* Number;
+
+	// Ф-я освобождения памяти
+	void FDelete()
+	{
+		// Удаление Дин.массива
+		for (int i = 0; i < n; i++)
+		{
+			delete[] A[i];
+		}
+		delete[] A;
+
+		// Удаление Доп.данных
+		delete Info;
+		delete Number;
+	}
 };
 
-Vector operator+(const Vector& a, const Vector& b)
+ostream& operator << (ostream& out, Array& Arr)
 {
-	return Vector(a.x + b.x, a.y + b.y, a.z + b.z);
-}
+	// Вывод Дин.массива
+	cout << '\n';
+	for (int i = 0; i < Arr.n; i++)
+	{
+		for (int ii = 0; ii < Arr.m; ii++)
+		{
+			cout << Arr.A[i][ii] << "  ";
+		}
+		cout << '\n';
+	}
 
-std::ostream& operator<<(std::ostream& out, const Vector& v)
-{
-	out << v.x << ' ' << v.y << ' ' << v.z;
+	// Вывод Доп.данных
+	cout << "Info = " << *Arr.Info << '\n';
+	cout << "Number = " << *Arr.Number << '\n';
+
 	return out;
-}
-
-bool operator>(const Vector& a, const Vector& b)
-{
-	return false;
-}
+};
 
 int main()
 {
-	Vector v1(1);
-	Vector v2(2);
-	Vector v3;
-	std::cout << v2 << '\n';
-	v3 = v2 = v1;
-	std::cout << v2 << '\n';
+	setlocale(LC_ALL, "Russian");
 
+	cout << "\nИнициализация A1:";
+	Array A1;
+	cout << "\nA1:" << A1;
+
+	cout << "\nИнициализация A2:";
+	Array A2;
+	cout << "\nA2:" << A2;
+
+	A2 = A1;
+	cout << "\nA2 = A1:" << A2;
+
+	cout << "\nИнициализация A3:";
+	Array A3(A1);
+	cout << "\nA3(A1):" << A3;
 }
