@@ -164,7 +164,14 @@ public:
 	{
 		std::cout << PlayerName << " is at " << Location << '\n';
 		std::cout << PlayerName << " have ";
-		MainItem->ShowItemName();
+		if (MainItem)
+		{
+			MainItem->ShowItemName();
+		}
+		else
+		{
+			std::cout << "none\n";
+		}
 	}
 
 	void SetNewItem(Item* newItem)
@@ -178,6 +185,34 @@ public:
 	}
 
 	friend class Guild;
+};
+
+class PlayersParty
+{
+private:
+	Player** players;
+	int CurrentPlayersNum;
+
+public:
+	PlayersParty()
+	{
+		CurrentPlayersNum = 0;
+		players = new Player * [4];
+	}
+
+	void AddPlayerToParty(Player* newPlayer)
+	{
+		players[CurrentPlayersNum] = newPlayer;
+		CurrentPlayersNum++;
+	}
+
+	void ShowAllPlayersInfo()
+	{
+		for (int i = 0; i < CurrentPlayersNum; i++)
+		{
+			players[i]->ShowPlayerInfo();
+		}
+	}
 };
 
 class Guild
@@ -201,7 +236,11 @@ public:
 int main()
 {
 	Item* Sword = new Item("Sword");
-	Player* NewPlayer = new Player("Somebody", Vector(1, 2, 3));
-	NewPlayer->SetNewItem(Sword);
-	NewPlayer->ShowPlayerInfo();
+	Player* PlayerA = new Player("Somebody", Vector(1, 2, 3));
+	PlayerA->SetNewItem(Sword);
+	Player* PlayerB = new Player("Second", Vector(1, 5, 8));
+	PlayersParty PlayersAB;
+	PlayersAB.AddPlayerToParty(PlayerA);
+	PlayersAB.AddPlayerToParty(PlayerB);
+	PlayersAB.ShowAllPlayersInfo();
 }
