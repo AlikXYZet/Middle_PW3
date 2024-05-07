@@ -1,3 +1,3 @@
-﻿W:\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: промежуточный каталог (Debug\) содержит файлы, которые используются совместно с другим проектом (Middle_PW1.vcxproj, Middle_PW2.vcxproj, Middle_PW3.vcxproj).  Это может привести к ошибкам очистки и перестроения.
-  M4.cpp
-  Middle_PW1.vcxproj -> W:\Middle\Middle_PW4\Debug\Middle_PW4.exe
+﻿W:\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: промежуточный каталог (Debug\) содержит файлы, которые используются совместно с другим проектом (Middle_PW1.vcxproj, Middle_PW2.vcxproj, Middle_PW4.vcxproj).  Это может привести к ошибкам очистки и перестроения.
+  M3.cpp
+  Middle_PW1.vcxproj -> W:\Middle\Middle_PW4\Debug\Middle_PW3.exe
