@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <string>
 
 class Vector
 {
@@ -9,6 +10,7 @@ public:
 		x = 0;
 		y = 0;
 		z = 0;
+		Info = new std::string("Info");
 	}
 
 	Vector(float x, float y, float z)
@@ -16,7 +18,7 @@ public:
 		this->x = x;
 		this->y = y;
 		this->z = z;
-		Info = new std::string("important!");
+		Info = new std::string("Info");
 	}
 
 	Vector(float num)
@@ -24,12 +26,12 @@ public:
 		x = num;
 		y = num;
 		z = num;
-		Info = new std::string("important!");
+		Info = new std::string("Info");
 	}
 
 	Vector(const Vector& other)
 	{
-		std::cout << "\nCopy constructor \n";
+		//std::cout << "\nCopy constructor \n";
 		x = other.x;
 		y = other.y;
 		z = other.z;
@@ -38,7 +40,7 @@ public:
 
 	Vector& operator=(Vector& other)
 	{
-		std::cout << "\noperator = \n";
+		//std::cout << "\noperator = \n";
 		x = other.x;
 		y = other.y;
 		z = other.z;
@@ -54,7 +56,7 @@ public:
 
 	~Vector()
 	{
-		std::cout << "Destructor calling \n";
+		//std::cout << "Destructor calling \n";
 		delete Info;
 	}
 
@@ -113,13 +115,64 @@ bool operator>(const Vector& a, const Vector& b)
 	return false;
 }
 
+class Item
+{
+private:
+	std::string ItemName;
+
+public:
+	Item()
+	{
+		ItemName = "none";
+	}
+
+	Item(std::string inItemName)
+	{
+		ItemName = inItemName;
+	}
+
+	void ShowItemName()
+	{
+		std::cout << ItemName << '\n';
+	}
+};
+
+class Player
+{
+private:
+	Vector Location;
+	std::string PlayerName;
+	Item* MainItem;
+
+public:
+	Player()
+	{
+		PlayerName = "None";
+	}
+
+	Player(std::string inPlayerName, Vector InitialLocation)
+	{
+		PlayerName = inPlayerName;
+		Location = InitialLocation;
+	}
+
+	void ShowPlayerInfo()
+	{
+		std::cout << PlayerName << " is at " << Location << '\n';
+		std::cout << PlayerName << " have ";
+		MainItem->ShowItemName();
+	}
+
+	void SetNewItem(Item* newItem)
+	{
+		MainItem = newItem;
+	}
+};
+
 int main()
 {
-	Vector v1(1);
-	Vector v2(2);
-	Vector v3;
-	std::cout << v2 << '\n';
-	v3 = v2 = v1;
-	std::cout << v2 << '\n';
-
+	Item* Sword = new Item("Sword");
+	Player* NewPlayer = new Player("Somebody", Vector(1, 2, 3));
+	NewPlayer->SetNewItem(Sword);
+	NewPlayer->ShowPlayerInfo();
 }
