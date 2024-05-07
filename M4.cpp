@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <string>
+#include <vector>
 
 class Vector
 {
@@ -137,12 +138,15 @@ public:
 	}
 };
 
+class Guild;
+
 class Player
 {
 private:
 	Vector Location;
-	std::string PlayerName;
 	Item* MainItem;
+	std::string PlayerName;
+	std::vector<Guild*> Guilds;
 
 public:
 	Player()
@@ -166,6 +170,31 @@ public:
 	void SetNewItem(Item* newItem)
 	{
 		MainItem = newItem;
+	}
+
+	void JoinGuild(Guild* guildToJoin)
+	{
+		Guilds.push_back(guildToJoin);
+	}
+
+	friend class Guild;
+};
+
+class Guild
+{
+private:
+	std::vector<Player*> Players;
+
+public:
+	void AddNewPlayer(Player* newPlayer)
+	{
+		newPlayer->JoinGuild(this);
+		Players.push_back(newPlayer);
+	}
+
+	void RemovePlayer(Player* playerToRemove)
+	{
+		Players.push_back(playerToRemove);
 	}
 };
 
